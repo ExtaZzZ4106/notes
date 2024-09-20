@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+input {
+    padding: 8px;
+    margin: 10px;
+    resize: none;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.list-holder{
+    width: 300px;
+    height: 600px;
+    
+    position: absolute; 
+    top: 130px;   
+    left: 10px; 
+    border: 2px solid  rgb(0, 0, 0);
+}
+.header{
+    width: 1000px;
+    height: 100px;
+
+    position: absolute; 
+    top: 10px;   
+    left: 10px; 
+
+    border: 2px solid  rgb(0, 0, 0);
+}
+.header-1{
+    width: 450px;
+    height: 50px;
+
+    position: absolute; 
+    top: 20px;   
+    left: 10px; 
+
+    border: 2px solid  rgb(0, 0, 0);
+}
+.header-2{
+    width: 450px;
+    height: 50px;
+
+    position: absolute; 
+    top: 20px;   
+    left: 500px; 
+
+    border: 2px solid  rgb(0, 0, 0);
+}
+.delete-btn {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px; /* Отступ между текстом и кнопкой */
+}
+
+.delete-btn:hover {
+    background-color: #e63e3e;
+}
+
+
+.text-of-note{
+    width: 660px;
+    height: 600px;
+
+    position: absolute; 
+    top: 130px;   
+    left: 350px; 
+
+    border: 2px solid  rgb(0, 0, 0);
+}
+textarea {
+    width: 655px;
+    height: 595px;
+    resize: none; /* Запрещает изменение размера */
+}

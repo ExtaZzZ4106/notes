@@ -1,5 +1,8 @@
 let selectedNoteId = null;  // Переменная для хранения ID выбранной заметки
-
+let activeNoteElement = null;  // Переменная для хранения активного элемента
+window.onresize = function () {
+    window.resizeTo(935, 705);
+    }
     // Функция для добавления заметки
     function addNote() {
         const noteText = document.getElementById('note').value;
@@ -11,15 +14,7 @@ let selectedNoteId = null;  // Переменная для хранения ID �
         });
     }
 
-    // Функция для отображения текста выбранной заметки
-    function selectNote(noteId) {
-        selectedNoteId = noteId;
-
-        eel.get_note_text(noteId)(function(noteText) {
-            const textarea = document.querySelector('.text-of-note textarea');
-            textarea.value = noteText || '';
-        });
-    }
+   
 
     // Функция для сохранения изменений в тексте заметки
     function saveNoteChanges() {
@@ -32,6 +27,30 @@ let selectedNoteId = null;  // Переменная для хранения ID �
         });
     }
 
+    
+
+
+    // Функция для отображения текста выбранной заметки
+    function selectNote(noteId, noteElement) {
+        saveNoteChanges();
+        
+        selectedNoteId = noteId;
+
+        // Убираем класс 'active' с предыдущей активной заметки
+        if (activeNoteElement) {
+            activeNoteElement.classList.remove('active');
+        }
+
+        // Присваиваем текущей заметке класс 'active'
+        noteElement.classList.add('active');
+        activeNoteElement = noteElement;
+
+        eel.get_note_text(noteId)(function(noteText) {
+            
+            const textarea = document.querySelector('.text-of-note textarea');
+            textarea.value = noteText || '';
+        });
+    }
     // Функция для обновления списка заметок
     function updateNotesList() {
         eel.get_notes()(function(notes) {
@@ -40,7 +59,14 @@ let selectedNoteId = null;  // Переменная для хранения ID �
 
             notes.forEach(function(note) {
                 const li = document.createElement('li');
-                li.textContent = note.note;
+                li.className = 'note-item';
+                
+                const overlayDiv = document.createElement('div');
+                overlayDiv.className = 'overlay-div'; 
+
+                const span = document.createElement('span');
+                span.textContent = note.note;
+                span.className = 'note-text';
 
                 // Создание кнопки для удаления
                 const deleteButton = document.createElement('button');
@@ -52,11 +78,13 @@ let selectedNoteId = null;  // Переменная для хранения ID �
 
                 // Добавляем обработчик для выбора заметки
                 li.onclick = function() {
-                    selectNote(note.id);  // Выбор заметки по ID
+                    selectNote(note.id, li);  // Передаем ID и элемент заметки
                 };
 
+                li.appendChild(span);  // Вставляем span с текстом
                 li.appendChild(deleteButton);
                 notesList.appendChild(li);
+                li.appendChild(overlayDiv);
             });
         });
     }

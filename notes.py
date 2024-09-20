@@ -85,7 +85,7 @@ def close_db():
 db_start()
 
 # Запуск веб-интерфейса
-eel.start("index.html", size=(1000, 800), block=False)
+eel.start("index.html", size=(935, 705), block=False)
 
 # Закрытие базы данных при завершении приложения
 @eel.expose

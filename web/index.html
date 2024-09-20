@@ -7,6 +7,7 @@
     <script src="/eel.js"></script>
     <link rel="icon" type="image/png" href="/note-icon.png">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     
@@ -15,23 +16,24 @@
     
     <div class="header">
         <div class="header-1">
-            <label for="note">Заметка:</label>
-            <input type="text" id="note" />
+            
+            <input type="text" id="note" placeholder="Заметка:" />
 
             <button onclick="addNote()">Добавить заметку</button>
         </div>
+        
         <div class="header-2">
-            <button onclick="saveNoteChanges()">Сохранить изменения</button>
+            <button class="save-b" onclick="saveNoteChanges()">Сохранить изменения</button>
         </div>
     </div>
-    <div class="list-holder">
+    <div class="list-holder"  id="style-2">
         <ul id="notes_list">
             
         </ul>
     </div>
 
     <div class="text-of-note">
-        <textarea></textarea>
+        <textarea  id="style-3"></textarea>
     </div>
    
 </body>
