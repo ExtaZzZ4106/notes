@@ -18,39 +18,47 @@ window.onresize = function () {
 
     // Функция для сохранения изменений в тексте заметки
     function saveNoteChanges() {
-        if (selectedNoteId === null) return;
+        return new Promise((resolve) => {
+            if (selectedNoteId === null) {
+                resolve();  // Если нет выбранной заметки, продолжаем выполнение
+                return;
+            }
 
-        const newText = document.querySelector('.text-of-note textarea').value;
+            const newText = document.querySelector('.text-of-note textarea').value;
 
-        eel.update_note_text(selectedNoteId, newText)(function() {
-            updateNotesList();  // Обновляем список заметок после изменений
+            eel.update_note_text(selectedNoteId, newText)(function() {
+                // Не обновляем список сразу
+                resolve();  // Завершаем промис
+            });
         });
     }
+
+
 
     
 
 
     // Функция для отображения текста выбранной заметки
     function selectNote(noteId, noteElement) {
-        saveNoteChanges();
-        
-        selectedNoteId = noteId;
+        saveNoteChanges().then(() => {  // Ждем завершения сохранения перед продолжением
+            selectedNoteId = noteId;
 
-        // Убираем класс 'active' с предыдущей активной заметки
-        if (activeNoteElement) {
-            activeNoteElement.classList.remove('active');
-        }
+            // Убираем класс 'active' с предыдущей активной заметки
+            if (activeNoteElement) {
+                activeNoteElement.classList.remove('active');
+            }
 
-        // Присваиваем текущей заметке класс 'active'
-        noteElement.classList.add('active');
-        activeNoteElement = noteElement;
+            // Присваиваем текущей заметке класс 'active'
+            noteElement.classList.add('active');
+            activeNoteElement = noteElement;
 
-        eel.get_note_text(noteId)(function(noteText) {
-            
-            const textarea = document.querySelector('.text-of-note textarea');
-            textarea.value = noteText || '';
+            eel.get_note_text(noteId)(function(noteText) {
+                const textarea = document.querySelector('.text-of-note textarea');
+                textarea.value = noteText || '';
+            });
         });
     }
+
     // Функция для обновления списка заметок
     function updateNotesList() {
         eel.get_notes()(function(notes) {
@@ -60,7 +68,13 @@ window.onresize = function () {
             notes.forEach(function(note) {
                 const li = document.createElement('li');
                 li.className = 'note-item';
-                
+
+                // Проверяем, активная ли это заметка
+                if (note.id === selectedNoteId) {
+                    li.classList.add('active');  // Восстанавливаем выделение
+                    activeNoteElement = li;  // Сохраняем элемент как активный
+                }
+
                 const overlayDiv = document.createElement('div');
                 overlayDiv.className = 'overlay-div'; 
 
@@ -88,6 +102,7 @@ window.onresize = function () {
             });
         });
     }
+
 
     // Функция для удаления заметки по ID
     function deleteNote(noteId) {
